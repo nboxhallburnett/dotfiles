@@ -1,0 +1,273 @@
+#   -----------------------------   #
+#      COMMONLY USED FUNCTIONS      #
+#   -----------------------------   #
+
+alias ub=". ~/.bash_profile"
+alias ebp="code ~/.bash_profile"
+alias edf="code ~/Git/dotfiles/"
+alias evi="vi ~/.vimrc"
+
+# Make sure we're using the correct asdf binary
+alias asdf="~/.asdf/bin/asdf"
+
+# Shortcut for running curl with JSON headers
+alias jsoncurl="curl -H \"Accept: application/json\" -H \"Content-Type: application/json\""
+
+# Add an empty space to the mac dock
+alias addDockSpace="defaults write com.apple.dock persistent-apps -array-add '{\"tile-type\"=\"spacer-tile\";}'; killall Dock"
+
+# Print out public ssh key
+alias getPublicKey="cat ~/.ssh/id_rsa.pub"
+
+alias sizeof="stat -f%z"
+
+alias symlink="ln -s"
+
+# Vi style exit for bash
+alias :q="exit"
+
+# Restart the bash process
+alias restart-bash="exec bash -l"
+
+# Need to unmount the bootcamp volume before virtualbox can access it
+setUpBootcampVM () {
+	diskutil unmount /Volumes/BOOTCAMP
+	sudo chmod 777 /dev/disk0s1
+	sudo chmod 777 /dev/disk0s4
+	open /Applications/VirtualBox.app
+}
+
+# Kill a process from its name
+killX () {
+  sudo kill -9 `ps -A | grep -m1 $1 | awk '{print $1}'`
+}
+
+#   -----------------------------   #
+#      GO TO COMMON DIRECTORIES     #
+#   -----------------------------   #
+
+alias d="cd ~/Desktop"
+alias ~="cd ~"
+
+#   -----------------------------   #
+#           GIT SHORTCUTS           #
+#   -----------------------------   #
+
+alias g="git"
+alias gcm="git commit -m"
+alias gca="git commit --amend"
+alias gcam="git commit --amend -m"
+alias grv="git remote -v"
+alias gfu="git fetch upstream"
+alias gmu="git merge upstream/master"
+alias gs="git st"
+alias gd="git dsf"
+alias gds="git diff --stat"
+alias gc="git checkout"
+alias gl="git lds"
+alias gb="git branch"
+alias ga="git add"
+alias gai="git add -i" # Interactive staging
+
+# alias yolo="git add . && git commit -m \"$(curl -s whatthecommit.com/index.txt)\" && git push"
+
+#   -----------------------------   #
+#             FIX TYPOS             #
+#   -----------------------------   #
+
+alias ndoe="node"
+alias noed="node"
+alias onde="node"
+alias ndoe="node"
+alias ndeo="node"
+alias noce="node"
+alias nide="node"
+alias nod="node"
+alias noe="node"
+alias ode="node"
+alias nde="node"
+alias nod="node"
+
+alias gti="git"
+
+#   -----------------------------   #
+#       MAKE TERMINAL BETTER        #
+#   -----------------------------   #
+
+alias ls='ls -GFh'                          # Preferred 'ls' implementation
+alias ils='~/Scripts/imgls'                 # iTerm Image viewing ls
+alias cp='cp -iv'                           # Preferred 'cp' implementation
+alias mv='mv -iv'                           # Preferred 'mv' implementation
+alias mkdir='mkdir -pv'                     # Preferred 'mkdir' implementation
+alias less='less -FSRXc'                    # Preferred 'less' implementation
+alias rm='/bin/rm -i'                       # Preferred 'rm' implementation
+alias ll="ls -FGlAhp"                       # Shortcut for detailed 'ls' command
+alias h25="history 25"                      # Show the 25 previous commands
+alias h="history"                           # show x number of previous commands
+alias subl="sublime"                        # Open a file or directory in Sublime Text
+alias json="python -m json.tool"            # | json a command to pretty print the output
+cd() { builtin cd "$@"; ll; }               # Always list directory contents upon 'cd'
+alias ..='cd ../'                           # Go back 1 directory level
+alias ...='cd ../../'                       # Go back 2 directory levels
+alias ....='cd ../../../'                   # Go back 3 directory levels
+alias .....='cd ../../../../'               # Go back 4 directory levels
+alias ......='cd ../../../../../'           # Go back 5 directory levels
+alias .......='cd ../../../../../../'       # Go back 6 directory levels
+alias .3='cd ../../../'                     # Go back 3 directory levels
+alias .4='cd ../../../../'                  # Go back 4 directory levels
+alias .5='cd ../../../../../'               # Go back 5 directory levels
+alias .6='cd ../../../../../../'            # Go back 6 directory levels
+alias c='clear'                             # Clear terminal display
+mcd () { mkdir -p "$1" && cd "$1"; }        # Makes new Dir and jumps inside
+trash () { command mv "$@" ~/.Trash ; }     # Moves a file to the MacOS trash
+ql () { qlmanage -p "$*" >& /dev/null; }    # Opens any file in MacOS Quicklook Preview
+
+#   tree: Print out a tree containing the sub directories/files from the current, or supplied, location
+#   ------------------------------------------
+tree () {
+    echo
+    if [ "$1" != "" ]  #if parameter exists, use as base folder
+       then cd "$1"
+       fi
+    pwd
+    ls -R | grep ":$" |   \
+       sed -e 's/:$//' -e 's/[^─][^\/]*\//──/g' -e 's/^/   /' -e 's/─/|/' | less
+    # 1st sed: remove colons
+    # 2nd sed: replace higher level folder names with dashes
+    # 3rd sed: indent graph three spaces
+    # 4th sed: replace first dash with a vertical bar
+    if [ `ls -F -1 | grep "/" | wc -l` = 0 ]   # check if no folders
+       then echo "   -> no sub-directories"
+    fi
+    echo
+}
+
+#   showa: to remind yourself of an alias (given some part of it)
+#   ------------------------------------------------------------
+showa () { /usr/bin/grep --color=always -i -a1 $@ ~/.bash_profile | grep -v '^\s*$' | less -FSRXc ; }
+
+#   -------------------------------   #
+#      FILE AND FOLDER MANAGEMENT     #
+#   -------------------------------   #
+
+zipf () { zip -r "$1".zip "$1" ; }          # zipf:         To create a ZIP archive of a folder
+alias numFiles='echo $(ls -1 | wc -l)'      # numFiles:     Count of non-hidden files in current dir
+alias make1mb='mkfile 1m ./1MB.dat'         # make1mb:      Creates a file of 1mb size (all zeros)
+alias make5mb='mkfile 5m ./5MB.dat'         # make5mb:      Creates a file of 5mb size (all zeros)
+alias make10mb='mkfile 10m ./10MB.dat'      # make10mb:     Creates a file of 10mb size (all zeros)
+makexmb () { mkfile "$1"m ./"$1"MB.dat; }
+alias makexmb=makexmb
+
+#   extract:  Extract most know archives with one command
+#   ---------------------------------------------------------
+extract () {
+    if [ -f $1 ] ; then
+      case $1 in
+        *.tar.bz2)   tar xjf $1     ;;
+        *.tar.gz)    tar xzf $1     ;;
+        *.bz2)       bunzip2 $1     ;;
+        *.rar)       unrar e $1     ;;
+        *.gz)        gunzip $1      ;;
+        *.tar)       tar xf $1      ;;
+        *.tbz2)      tar xjf $1     ;;
+        *.tgz)       tar xzf $1     ;;
+        *.zip)       unzip $1       ;;
+        *.Z)         uncompress $1  ;;
+        *.7z)        7z x $1        ;;
+        *)     echo "'$1' cannot be extracted via extract()" ;;
+         esac
+     else
+         echo "'$1' is not a valid file"
+     fi
+}
+
+
+#   ---------------------------   #
+#            SEARCHING            #
+#   ---------------------------   #
+
+alias qfind="find . -name "                 # qfind:    Quickly search for file
+ff () { /usr/bin/find . -name "$@" ; }      # ff:       Find file under the current directory
+ffs () { /usr/bin/find . -name "$@"'*' ; }  # ffs:      Find file whose name starts with a given string
+ffe () { /usr/bin/find . -name '*'"$@" ; }  # ffe:      Find file whose name ends with a given string
+
+#   ---------------------------   #
+#       PROCESS MANAGEMENT        #
+#   ---------------------------   #
+
+#   findPid: find out the pid of a specified process
+#   -----------------------------------------------------
+#       Note that the command name can be specified via a regex
+#       E.g. findPid '/d$/' finds pids of all processes with names ending in 'd'
+#       Without the 'sudo' it will only find processes of the current user
+#   -----------------------------------------------------
+findPid () { lsof -t -c "$@" ; }
+
+#   memHogsTop, memHogsPs:  Find memory hogs
+#   -----------------------------------------------------
+alias memHogsTop='top -l 1 -o rsize | head -20'
+alias memHogsPs='ps wwaxm -o pid,stat,vsize,rss,time,command | head -10'
+
+#   cpuHogs:  Find CPU hogs
+#   -----------------------------------------------------
+alias cpuHogs='ps wwaxr -o pid,stat,%cpu,time,command | head -10'
+
+#   topForever:  Continual 'top' listing (every 10 seconds)
+#   -----------------------------------------------------
+alias topForever='top -l 9999999 -s 10 -o cpu'
+
+#   ttop:  Recommended 'top' invocation to minimize resources
+#   ------------------------------------------------------------
+#       Taken from this macosxhints article
+#       http://www.macosxhints.com/article.php?story=20060816123853639
+#   ------------------------------------------------------------
+alias ttop="top -R -F -s 10 -o rsize"
+
+#   my_ps: List processes owned by my user:
+#   ------------------------------------------------------------
+my_ps() { ps $@ -u $USER -o pid,%cpu,%mem,start,time,bsdtime,command ; }
+
+
+#   ---------------------------   #
+#            NETWORKING           #
+#   ---------------------------   #
+
+alias myip='curl ip.appspot.com'                                            # myip:         Public facing IP Address
+alias netCons='lsof -i'                                                     # netCons:      Show all open TCP/IP sockets
+alias flushDNS='dscacheutil -flushcache; sudo killall -HUP mDNSResponder'   # flushDNS:     Flush out the DNS Cache
+alias lsock='sudo /usr/sbin/lsof -i -P'                                     # lsock:        Display open sockets
+alias lsockU='sudo /usr/sbin/lsof -nP | grep UDP'                           # lsockU:       Display only open UDP sockets
+alias lsockT='sudo /usr/sbin/lsof -nP | grep TCP'                           # lsockT:       Display only open TCP sockets
+alias ipInfo0='ipconfig getpacket en0'                                      # ipInfo0:      Get info on connections for en0
+alias ipInfo1='ipconfig getpacket en1'                                      # ipInfo1:      Get info on connections for en1
+alias openPorts='sudo lsof -i | grep LISTEN'                                # openPorts:    All listening connections
+alias showBlocked='sudo ipfw list'                                          # showBlocked:  All ipfw rules inc/ blocked IPs
+
+#   ii:  display useful host related informaton
+#   -------------------------------------------------------------------
+ii() {
+    echo -e "\nYou are logged on ${RED}$HOST"
+    echo -e "\nAdditionnal information:$NC " ; uname -a
+    echo -e "\n${RED}Users logged on:$NC " ; w -h
+    echo -e "\n${RED}Current date:$NC " ; date
+    echo -e "\n${RED}Machine stats:$NC " ; uptime
+    echo -e "\n${RED}Current network location:$NC " ; scselect
+    echo -e "\n${RED}Public facing IP Address:$NC " ; myip
+    #echo -e "\n${RED}DNS Configuration:$NC " ; scutil --dns
+    echo
+}
+
+
+#   ---------------------------------------   #
+#      SYSTEMS OPERATIONS & INFORMATION       #
+#   ---------------------------------------   #
+
+#   cleanupDS:  Recursively delete .DS_Store files
+#   -------------------------------------------------------------------
+alias cleanupDS="find . -type f -name '*.DS_Store' -ls -delete"
+
+#   finderShowHidden:   Show hidden files in Finder
+#   finderHideHidden:   Hide hidden files in Finder
+#   -------------------------------------------------------------------
+alias finderShowHidden='defaults write com.apple.finder ShowAllFiles TRUE'
+alias finderHideHidden='defaults write com.apple.finder ShowAllFiles FALSE'

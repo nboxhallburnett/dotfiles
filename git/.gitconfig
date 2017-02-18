@@ -1,0 +1,71 @@
+# Source private git config data
+[include]
+    path = ~/.gitconfig_private
+
+[color]
+    branch = auto
+    diff = auto
+    status = auto
+
+[color "branch"]
+    current = red reverse
+    local = blue
+    remote = green
+
+[color "diff"]
+    meta = yellow
+    frag = magenta
+    old = red bold
+    new = green
+    plain = white
+
+[color "diff-highlight"]
+    oldNormal = red bold
+    oldHighlight = red bold 52
+    newNormal = green bold
+    newHighlight = green bold 22
+
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan
+
+[credential]
+    helper = osxkeychain
+
+[alias]
+    st = status -s
+
+    cl = clone
+
+    ci = commit
+    cm = commit -m
+    cma = commit -a -m
+    ca = commit --amend
+    amend = commit --amend
+
+    ai = add --interactive
+
+    co = checkout
+    br = branch
+
+    #list commands
+    le = log --oneline --decorate
+    ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+    lds = log --pretty=format:"%C(yellow)%h\\ %C(green)%ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short --graph
+
+    #list all aliases
+    la = "!git config -l | grep alias | cut -c 7-"
+
+    diff = diff --word-diff
+    d = diff --word-diff
+    ds = diff --stat
+    #list modified files in last commit
+    dl = "!git ll -1"
+    #diff last commit
+    dlc = diff --cached HEAD^
+    #diff-so-fancy
+    dsf = "!f() { [ \"$GIT_PREFIX\" != \"\" ] && cd "$GIT_PREFIX"; git diff --color $@ | diff-so-fancy | less --tabs=4 -RFX; }; f"
+
+[rebase]
+    autosquash = true
