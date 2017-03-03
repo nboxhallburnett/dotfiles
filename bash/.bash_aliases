@@ -54,6 +54,7 @@ alias ~="cd ~"
 #   -----------------------------   #
 
 alias g="git"
+alias gm="git checkout master; git pull"
 alias gcm="git commit -m"
 alias gca="git commit --amend"
 alias gcam="git commit --amend -m"
@@ -122,29 +123,11 @@ mcd () { mkdir -p "$1" && cd "$1"; }        # Makes new Dir and jumps inside
 trash () { command mv "$@" ~/.Trash ; }     # Moves a file to the MacOS trash
 ql () { qlmanage -p "$*" >& /dev/null; }    # Opens any file in MacOS Quicklook Preview
 
-#   tree: Print out a tree containing the sub directories/files from the current, or supplied, location
-#   ------------------------------------------
-tree () {
-    echo
-    if [ "$1" != "" ]  #if parameter exists, use as base folder
-       then cd "$1"
-       fi
-    pwd
-    ls -R | grep ":$" |   \
-       sed -e 's/:$//' -e 's/[^─][^\/]*\//──/g' -e 's/^/   /' -e 's/─/|/' | less
-    # 1st sed: remove colons
-    # 2nd sed: replace higher level folder names with dashes
-    # 3rd sed: indent graph three spaces
-    # 4th sed: replace first dash with a vertical bar
-    if [ `ls -F -1 | grep "/" | wc -l` = 0 ]   # check if no folders
-       then echo "   -> no sub-directories"
-    fi
-    echo
-}
+alias tree="tree -L 2 -C -I '.git|node_modules'"
 
 #   showa: to remind yourself of an alias (given some part of it)
 #   ------------------------------------------------------------
-showa () { /usr/bin/grep --color=always -i -a1 $@ ~/.bash_profile | grep -v '^\s*$' | less -FSRXc ; }
+showa () { /usr/bin/grep --color=always -i -a1 $@ ~/.bash_aliases | grep -v '^\s*$' | less -FSRXc ; }
 
 #   -------------------------------   #
 #      FILE AND FOLDER MANAGEMENT     #

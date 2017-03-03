@@ -42,6 +42,7 @@ export TERM=xterm-256color
 
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
+export LS_COLORS=ExFxBxDxCxegedabagacad
 export BLOCKSIZE=1k
 
 #   ------------------------------   #
