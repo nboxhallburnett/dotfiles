@@ -31,3 +31,7 @@ lnif $DOTFILESDIR/tmux/.tmux.reset.conf $HOME/.tmux.reset.conf
 # Vi
 echo "Setting up Vi..."
 lnif $DOTFILESDIR/vi/.vimrc $HOME/.vimrc
+# Create vim theme directory
+mkdir -p $HOME/.vim/colors
+# Install colour scheme
+curl https://github.com/sjl/badwolf/blob/master/colors/badwolf.vim > $HOME/.vim/colors/badwolf.vim
