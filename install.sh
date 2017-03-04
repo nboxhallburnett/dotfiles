@@ -34,4 +34,4 @@ lnif $DOTFILESDIR/vi/.vimrc $HOME/.vimrc
 # Create vim theme directory
 mkdir -p $HOME/.vim/colors
 # Install colour scheme
-curl https://github.com/sjl/badwolf/blob/master/colors/badwolf.vim > $HOME/.vim/colors/badwolf.vim
+curl https://raw.githubusercontent.com/sjl/badwolf/master/colors/badwolf.vim > $HOME/.vim/colors/badwolf.vim
