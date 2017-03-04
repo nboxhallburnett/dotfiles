@@ -31,11 +31,15 @@ if [ ! -f /usr/local/etc/bash_completion.d/git-prompt.sh ]; then
   curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh > /usr/local/etc/bash_completion.d/git-prompt.sh
 fi
 
-
 # Tmux
 echo "Setting up Tmux..."
 lnif $DOTFILESDIR/tmux/.tmux.conf $HOME/.tmux.conf
 lnif $DOTFILESDIR/tmux/.tmux.reset.conf $HOME/.tmux.reset.conf
+if [ ! -e $HOME/.tmux/plugins/ ]; then
+  mkdir -p $HOME/.tmux/plugins
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
+
 
 # Vi
 echo "Setting up Vi..."
