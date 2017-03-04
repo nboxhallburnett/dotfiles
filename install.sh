@@ -22,6 +22,15 @@ lnif $DOTFILESDIR/bash/.bash_prompt $HOME/.bash_prompt
 echo "Setting up Git..."
 lnif $DOTFILESDIR/git/.gitconfig $HOME/.gitconfig
 lnif $DOTFILESDIR/git/.gitconfig_private $HOME/.gitconfig_private
+# Check if git completion is set up
+if [ ! -f /usr/local/etc/bash_completion.d/git-completion.bash ]; then
+  mkdir -p /usr/local/etc/bash_completion.d
+  curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash > /usr/local/etc/bash_completion.d/git-completion.bash
+fi
+if [ ! -f /usr/local/etc/bash_completion.d/git-prompt.sh ]; then
+  curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh > /usr/local/etc/bash_completion.d/git-prompt.sh
+fi
+
 
 # Tmux
 echo "Setting up Tmux..."
@@ -31,7 +40,8 @@ lnif $DOTFILESDIR/tmux/.tmux.reset.conf $HOME/.tmux.reset.conf
 # Vi
 echo "Setting up Vi..."
 lnif $DOTFILESDIR/vi/.vimrc $HOME/.vimrc
-# Create vim theme directory
-mkdir -p $HOME/.vim/colors
-# Install colour scheme
-curl https://raw.githubusercontent.com/sjl/badwolf/master/colors/badwolf.vim > $HOME/.vim/colors/badwolf.vim
+# Check if theme is installed
+if [ ! -f $HOME/.vim/colors/badwolf.vim ]; then
+  mkdir -p $HOME/.vim/colors
+  curl https://raw.githubusercontent.com/sjl/badwolf/master/colors/badwolf.vim > $HOME/.vim/colors/badwolf.vim
+fi
