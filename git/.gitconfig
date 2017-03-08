@@ -49,23 +49,26 @@
     co = checkout
     br = branch
 
-    #list commands
+    # list commands
     le = log --oneline --decorate
     ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
     lds = log --pretty=format:"%C(yellow)%h\\ %C(green)%ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short --graph
 
-    #list all aliases
+    # list all aliases
     la = "!git config -l | grep alias | cut -c 7-"
 
     diff = diff --word-diff
     d = diff --word-diff
     ds = diff --stat
-    #list modified files in last commit
+    # list modified files in last commit
     dl = "!git ll -1"
-    #diff last commit
+    # diff last commit
     dlc = diff --cached HEAD^
-    #diff-so-fancy
+    # diff-so-fancy
     dsf = "!f() { [ \"$GIT_PREFIX\" != \"\" ] && cd "$GIT_PREFIX"; git diff --color $@ | diff-so-fancy | less --tabs=4 -RFX; }; f"
+
+    # print out a list of all aliases
+    aliases = "!git config --get-regexp 'alias.*' | colrm 1 6 | sed 's/[ ]/ = /' | sort"
 
 [rebase]
     autosquash = true
