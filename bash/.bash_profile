@@ -55,9 +55,6 @@ shopt -s cdspell
 shopt -s autocd
 shopt -s dirspell
 
-bind "set completion-ignore-case on"
-bind "set show-all-if-ambiguous on"
-
 #   -----------------------------   #
 #              IMPORTS              #
 #   -----------------------------   #
@@ -78,6 +75,11 @@ fi
 # Private configs
 if [ -f ~/.bash_private ]; then
 	source ~/.bash_private
+fi
+
+# Input settings
+if [ -f ~/.inputrc ]; then
+	bind -f ~/.inputrc
 fi
 
 # asdf setup

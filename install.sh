@@ -17,6 +17,7 @@ lnif $DOTFILESDIR/bash/.bash_profile $HOME/.bash_profile
 lnif $DOTFILESDIR/bash/.bash_aliases $HOME/.bash_aliases
 lnif $DOTFILESDIR/bash/.bash_private $HOME/.bash_private
 lnif $DOTFILESDIR/bash/.bash_prompt $HOME/.bash_prompt
+lnif $DOTFILESDIR/bash/.inputrc $HOME/.inputrc
 
 # Git
 echo "Setting up Git..."
