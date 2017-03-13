@@ -37,9 +37,6 @@ export PATH="$PATH:$GOPATH/bin"
  # Add RVM to PATH for scripting
 export PATH="$PATH:$HOME/.rvm/bin"
 
-# Tell tmux that we support truecolor
-export TERM=xterm-256color
-
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
 export LS_COLORS=ExFxBxDxCxegedabagacad
