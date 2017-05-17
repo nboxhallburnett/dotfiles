@@ -71,6 +71,9 @@ alias gb="git branch"
 alias ga="git add"
 alias gai="git add -i" # Interactive staging
 
+# Remove branches that have been merged into master, excluding master and the currently checked out branch
+alias git-trim-branches="git branch --merged master | grep -v -e 'master' -e '\*' | xargs -n 1 git branch -d"
+
 # alias yolo="git add . && git commit -m \"$(curl -s whatthecommit.com/index.txt)\" && git push"
 
 #   -----------------------------   #
