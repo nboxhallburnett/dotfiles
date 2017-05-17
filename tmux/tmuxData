@@ -1,0 +1,86 @@
+#! /usr/bin/env node
+
+/**
+ * Script used in tmux to display custom info
+ */
+
+const homedir = require('os').homedir(),
+	fs = require('fs'),
+	path = require('path');
+
+// Define output length
+const maxLen = process.argv[2] && Math.floor(process.argv[2] / 5 * 2) || 75,
+	rightLen = 25, // ' 11/11/11   1:23:45 pm '.length
+	strLen = maxLen - rightLen,
+	suffix = '...';
+
+let output;
+
+formatOutput(
+	busTime,
+	currentlyPlaying
+);
+
+process.stdout.write(
+	maxLen < 40
+		? ''
+		: output.length <= strLen
+			? output
+			: (output.substring(0, strLen - suffix.length) + suffix)
+);
+process.exit(0);
+
+// Format the any music that is currently, or was recently, playing
+function currentlyPlaying() {
+	const currentlyPlayingFile = path.resolve(homedir, '.playback.json');
+	const isRecent = fs.statSync(currentlyPlayingFile).mtime.getTime() > new Date(Date.now() - (1000 * 60 * 2)).getTime();
+	const data = require(currentlyPlayingFile);
+
+	if (isRecent && data && data.song && data.song.artist && data.song.title) {
+		const total = _msToMin(data.time.total),
+			current = _msToMin(data.time.current);
+		const str = `${data.playing ? '▶' : 'Ⅱ'} ${data.song.artist} - ${data.song.title}`;
+		const time = `${current}/${total}`;
+		return (str.length + time.length + 3 + busTimeStr.length > strLen
+			? str.substr(0, strLen - (time.length + busTimeStr.length + 7)) + '...'
+			: str + ' -') + ' ' + time;
+	}
+	return '';
+}
+
+// Display the next due bus, if it's an appropriate time
+function busTime() {
+	const date = new Date();
+	// Why would anyone use Sunday as the first day of the week...
+	const isWeekday = ![0, 6].includes(date.getDay());
+	// Only display starting at 4pm
+	const startTime = 16;
+	// Generate an array including the hours we want to display the times during
+	const isEOD = Array(5).fill().map((e, i) => startTime + i).includes(date.getHours());
+	if (isWeekday && isEOD) {
+		const busData = require(path.resolve(homedir, '.bustime.json'));
+		if (busData && busData.results && busData.results[0].duetime) {
+			// Casting as a number also catches when the bus is 'Due'
+			const index = +busData.results[0].duetime > 7
+				? 0
+				: 1;
+			return `Next #11 in ${busData.results[index].duetime}${busData.results[index + 1] ? (',' + busData.results[index + 1].duetime) : ''} mins`;
+		}
+	};
+	return '';
+}
+
+function formatOutput(...args) {
+	args.forEach(func => output = format(func()));
+
+	function format(d) {
+		return !d || !output
+			? output || d || ''
+			: `${output} | ${d}`;
+	}
+}
+
+function _msToMin(ts) {
+	const m = ts / 1000;
+	return `${Math.floor(m/60)}:${String('00' + Math.floor(m % 60)).slice(-2)}`
+}

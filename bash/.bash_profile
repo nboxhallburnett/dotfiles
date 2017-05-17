@@ -2,6 +2,7 @@
 #              COLOURS              #
 #   -----------------------------   #
 
+# Foreground
 BLACK='\e[0;30m'
 BLUE='\e[0;34m'
 GREEN='\e[0;32m'
@@ -18,6 +19,18 @@ LIGHTRED='\e[1;31m'
 LIGHTPURPLE='\e[1;35m'
 YELLOW='\e[1;33m'
 WHITE='\e[1;37m'
+
+# Background
+BG_BLACK='\e[40m'
+BG_RED='\e[41m'
+BG_GREEN='\e[42m'
+BG_YELLOW='\e[43m'
+BG_BLUE='\e[44m'
+BG_PURPLE='\e[45m'
+BG_CYAN='\e[46m'
+BG_WHITE='\e[47m'
+
+# Reset
 NC='\e[0m' # No Colour
 
 #   -----------------------------   #
@@ -58,6 +71,7 @@ shopt -s dirspell
 
 source /usr/local/etc/bash_completion.d/git-completion.bash
 source /usr/local/etc/bash_completion.d/git-prompt.sh
+source /usr/local/etc/bash_completion.d/npm
 
 # bashrc
 if [ -f ~/.bash_prompt ]; then
