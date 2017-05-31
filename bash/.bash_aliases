@@ -31,15 +31,15 @@ alias restart-bash="exec bash -l"
 
 # Need to unmount the bootcamp volume before virtualbox can access it
 setUpBootcampVM () {
-	diskutil unmount /Volumes/BOOTCAMP
-	sudo chmod 777 /dev/disk0s1
-	sudo chmod 777 /dev/disk0s4
-	open /Applications/VirtualBox.app
+    diskutil unmount /Volumes/BOOTCAMP
+    sudo chmod 777 /dev/disk0s1
+    sudo chmod 777 /dev/disk0s4
+    open /Applications/VirtualBox.app
 }
 
 # Kill a process from its name
 killX () {
-  sudo kill -9 `ps -A | grep -m1 $1 | awk '{print $1}'`
+    sudo kill -9 `ps -A | grep -m1 $1 | awk '{print $1}'`
 }
 
 #   -----------------------------   #
@@ -62,14 +62,18 @@ alias grv="git remote -v"
 alias gfu="git fetch upstream"
 alias gmu="git merge upstream/master"
 alias gs="git st"
-alias gd="git dsf"
 alias gds="git diff --stat"
-alias gdlc="git dsf --cached HEAD^"
+alias gdlc="git dsf --cached HEAD^ | less -SRc --tabs=4"
 alias gc="git checkout"
 alias gl="git lds"
 alias gb="git branch"
 alias ga="git add"
 alias gai="git add -i" # Interactive staging
+
+# Pass the diff through less, so we get nice scrolling
+gd() {
+    git dsf $@ | less -SRc --tabs=4
+}
 
 # Remove branches that have been merged into master, excluding master and the currently checked out branch
 alias git-trim-branches="git branch --merged master | grep -v -e 'master' -e '\*' | xargs -n 1 git branch -d"
@@ -104,7 +108,8 @@ alias ils='~/Scripts/imgls'                 # iTerm Image viewing ls
 alias cp='cp -iv'                           # Preferred 'cp' implementation
 alias mv='mv -iv'                           # Preferred 'mv' implementation
 alias mkdir='mkdir -pv'                     # Preferred 'mkdir' implementation
-alias less='less -FSRXc'                    # Preferred 'less' implementation
+# alias less='less -FSRXc'                    # Preferred 'less' implementation
+alias less='less -FSRc --tabs=4'            # Preferred 'less' implementation
 alias rm='/bin/rm -i'                       # Preferred 'rm' implementation
 alias ll="ls -FGlAhp"                       # Shortcut for detailed 'ls' command
 alias h25="history 25"                      # Show the 25 previous commands

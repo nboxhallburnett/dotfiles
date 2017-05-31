@@ -10,23 +10,29 @@ else print $1 "/.../" $NF; }
 else print $0;}'"'"')'
 
 # PS1="$LIGHTGRAY${fill} \d ─ \t ──$NC\n"
-# PS1="$CYAN\u$NC@$GREEN\h$NC: $YELLOW$(eval "echo \${MYPS}")$NC\$(__git_ps1)\n> "
-PS1="$GREEN\h$NC: $YELLOW$(eval "echo \${MYPS}")$NC\$(__git_ps1)\n> " #λ³ ➠ 
+# Display prompt that matches tmux style if currently in tmux
+if [ -n "$TMUX" ]; then
+	# PS1="\e[1;30;42m \h \e[32;43m\e[30;43m $(eval "echo \${MYPS}") \e[33;40m$NC\$(__git_ps1)\n> " # Green  Yellow 
+	PS1="\n\e[1;30;47m \h \e[37;100m\e[1;37;100m $(eval "echo \${MYPS}") \e[90;40m$NC\$(__git_ps1)\n> " # Light grey  Dark grey 
+else
+	# PS1="$CYAN\u$NC@$GREEN\h$NC: $YELLOW$(eval "echo \${MYPS}")$NC\$(__git_ps1)\n> "
+	PS1="$GREEN\h$NC: $YELLOW$(eval "echo \${MYPS}")$NC\$(__git_ps1)\n> "
+fi
 PS1='$(printf "%$((COLUMNS-1))s\r")'$PS1
 PS2='» '
 
 function prompt_command {
 
-    # create a $fill of all screen width minus the time string and a space:
-    let fillsize=${COLUMNS}-25
-    fill=""
-    while [ "$fillsize" -gt "0" ]
-    do
-        fill="─${fill}" # fill with underscores to work on
-        let fillsize=${fillsize}-1
-    done
+	# create a $fill of all screen width minus the time string and a space:
+	let fillsize=${COLUMNS}-25
+	fill=""
+	while [ "$fillsize" -gt "0" ]
+	do
+		fill="─${fill}" # fill with underscores to work on
+		let fillsize=${fillsize}-1
+	done
 
-    . ~/.bash_prompt
+	. ~/.bash_prompt
 
 }
 PROMPT_COMMAND=prompt_command

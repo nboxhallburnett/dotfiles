@@ -18,6 +18,7 @@
     old = red bold
     new = green
     plain = white
+    whitespace = blue reverse
 
 [color "diff-highlight"]
     oldNormal = red bold
@@ -49,16 +50,20 @@
     co = checkout
     br = branch
 
-    # list commands
+    # compact history
     le = log --oneline --decorate
-    ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+    # detailed history
+    ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --stat
+    # history tree
     lds = log --pretty=format:"%C(yellow)%h\\ %C(green)%ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short --graph
 
-    # list all aliases
-    la = "!git config -l | grep alias | cut -c 7-"
+    # changes in the last commit (List Last Commit)
+    llc = show --stat --oneline HEAD
 
+    # overwrite default diff with word-diff
     diff = diff --word-diff
     d = diff --word-diff
+    # stat the currently unstaged changes
     ds = diff --stat
     # list modified files in last commit
     dl = "!git ll -1"
@@ -68,7 +73,10 @@
     dsf = "!f() { [ \"$GIT_PREFIX\" != \"\" ] && cd "$GIT_PREFIX"; git diff --color $@ | diff-so-fancy | less --tabs=4 -RFX --pattern '^(Date|added|deleted|modified): '; }; f"
 
     # fetch and checkout PRs
-    pr = "!f() { git fetch -fu ${2:-$(git remote |grep ^upstream || echo origin)} refs/pull/$1/head:pr/$1 && git checkout pr/$1 && GIT_MERGE_AUTOEDIT=no git merge ${2:-$(git remote |grep ^upstream || echo origin)}/master; }; f"
+    pr = "!f() { git fetch -fu ${2:-$(git remote |grep ^upstream || echo origin)} refs/pull/$1/head:pr/$1 && git checkout pr/$1; }; f"
+    # fetch and checkout PRs, merged with master
+    pr-master = "!f() { git fetch -fu ${2:-$(git remote |grep ^upstream || echo origin)} refs/pull/$1/head:pr/$1 && git checkout pr/$1 && GIT_MERGE_AUTOEDIT=no git merge ${2:-$(git remote |grep ^upstream || echo origin)}/master; }; f"
+    # delete all local pr branches
     pr-clean = "!git for-each-ref refs/heads/pr/* --format=\"%(refname)\" | while read ref ; do branch=${ref#refs/heads/} ; git branch -D $branch ; done"
 
     # print out a list of all aliases
@@ -76,3 +84,10 @@
 
 [rebase]
     autosquash = true
+
+[push]
+    # include annotated tags with pushes
+    followTags = true
+
+[core]
+    whitespace = indent-with-non-tab,tabwidth=4
