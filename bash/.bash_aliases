@@ -27,6 +27,7 @@ alias symlink="ln -s"
 alias :q="exit"
 
 # Restart the bash process
+alias rb="exec bash -l"
 alias restart-bash="exec bash -l"
 
 # Need to unmount the bootcamp volume before virtualbox can access it
@@ -54,7 +55,7 @@ alias ~="cd ~"
 #   -----------------------------   #
 
 alias g="git"
-alias gm="git checkout master; git pull"
+alias gm="git checkout master && git pull"
 alias gcm="git commit -m"
 alias gca="git commit --amend"
 alias gcam="git commit --amend -m"
@@ -71,9 +72,7 @@ alias ga="git add"
 alias gai="git add -i" # Interactive staging
 
 # Pass the diff through less, so we get nice scrolling
-gd() {
-    git dsf $@ | less -SRc --tabs=4
-}
+gd() { git dsf $@ | less -SRc --tabs=4 ; }
 
 # Remove branches that have been merged into master, excluding master and the currently checked out branch
 alias git-trim-branches="git branch --merged master | grep -v -e 'master' -e '\*' | xargs -n 1 git branch -d"
@@ -116,7 +115,7 @@ alias h25="history 25"                      # Show the 25 previous commands
 alias h="history"                           # show x number of previous commands
 alias subl="sublime"                        # Open a file or directory in Sublime Text
 alias json="python -m json.tool"            # | json a command to pretty print the output
-cd() { builtin cd "$@"; ll; }               # Always list directory contents upon 'cd'
+cd() { builtin cd "$@" ; ll ; }             # Always list directory contents upon 'cd'
 alias ..='cd ../'                           # Go back 1 directory level
 alias ...='cd ../../'                       # Go back 2 directory levels
 alias ....='cd ../../../'                   # Go back 3 directory levels
@@ -128,9 +127,9 @@ alias .4='cd ../../../../'                  # Go back 4 directory levels
 alias .5='cd ../../../../../'               # Go back 5 directory levels
 alias .6='cd ../../../../../../'            # Go back 6 directory levels
 alias c='clear'                             # Clear terminal display
-mcd () { mkdir -p "$1" && cd "$1"; }        # Makes new Dir and jumps inside
+mcd () { mkdir -p "$1" && cd "$1" ; }       # Makes new Dir and jumps inside
 trash () { command mv "$@" ~/.Trash ; }     # Moves a file to the MacOS trash
-ql () { qlmanage -p "$*" >& /dev/null; }    # Opens any file in MacOS Quicklook Preview
+ql () { qlmanage -p "$*" >& /dev/null ; }   # Opens any file in MacOS Quicklook Preview
 
 alias tree="tree -L 2 -C -I '.git|node_modules'"
 
@@ -147,7 +146,7 @@ alias numFiles='echo $(ls -1 | wc -l)'      # numFiles:     Count of non-hidden 
 alias make1mb='mkfile 1m ./1MB.dat'         # make1mb:      Creates a file of 1mb size (all zeros)
 alias make5mb='mkfile 5m ./5MB.dat'         # make5mb:      Creates a file of 5mb size (all zeros)
 alias make10mb='mkfile 10m ./10MB.dat'      # make10mb:     Creates a file of 10mb size (all zeros)
-makexmb () { mkfile "$1"m ./"$1"MB.dat; }
+makexmb () { mkfile "$1"m ./"$1"MB.dat ; }
 alias makexmb=makexmb
 
 #   extract:  Extract most know archives with one command
@@ -244,8 +243,8 @@ ii() {
     echo -e "\n${RED}Current date:$NC " ; date
     echo -e "\n${RED}Machine stats:$NC " ; uptime
     echo -e "\n${RED}Current network location:$NC " ; scselect
-    echo -e "\n${RED}Public facing IP Address:$NC " ; myip
-    #echo -e "\n${RED}DNS Configuration:$NC " ; scutil --dns
+    # echo -e "\n${RED}Public facing IP Address:$NC " ; myip
+    # echo -e "\n${RED}DNS Configuration:$NC " ; scutil --dns
     echo
 }
 

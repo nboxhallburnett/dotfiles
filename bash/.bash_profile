@@ -96,5 +96,9 @@ if [ -f ~/.inputrc ]; then
 fi
 
 # asdf setup
-source $HOME/.asdf/asdf.sh
-source $HOME/.asdf/completions/asdf.bash
+[ -f $HOME/.asdf/asdf.sh ] && source $HOME/.asdf/asdf.sh
+[ -f $HOME/.asdf/completions/asdf.bash ] && source $HOME/.asdf/completions/asdf.bash
+# jabba setup
+[ -f $HOME/.jabba/jabba.sh ] && source $HOME/.jabba/jabba.sh
+# travis setup
+[ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
