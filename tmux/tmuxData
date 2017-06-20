@@ -41,9 +41,10 @@ function currentlyPlaying() {
 			current = _msToMin(data.time.current);
 		const str = `${data.playing ? '▶' : 'Ⅱ'} ${data.song.artist} - ${data.song.title}`;
 		const time = `${current}/${total}`;
-		return (str.length + time.length + 3 + output.length > strLen
+		return (str.length + time.length + 6 + output.length > strLen
 			? str.substr(0, strLen - (time.length + output.length + 7)) + '...'
-			: str + ' -') + ' ' + time;
+			: str + ' -')
+			+ ' ' + time;
 	}
 	return '';
 }
