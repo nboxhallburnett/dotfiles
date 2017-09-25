@@ -63,16 +63,17 @@ alias grv="git remote -v"
 alias gfu="git fetch upstream"
 alias gmu="git merge upstream/master"
 alias gs="git st"
-alias gds="git diff --stat"
-alias gdlc="git dsf --cached HEAD^ | less -SRc --tabs=4"
+alias gds="git diff -w --stat"
+alias gdlc="git dsf --cached HEAD^ | less -SRc --tabs=4 --pattern '^(Date|added|deleted|modified): '"
 alias gc="git checkout"
 alias gl="git lds"
 alias gb="git branch"
 alias ga="git add"
 alias gai="git add -i" # Interactive staging
+alias pr="git pr"
 
 # Pass the diff through less, so we get nice scrolling
-gd() { git dsf $@ | less -SRc --tabs=4 ; }
+gd() { git dsf $@ | less --tabs=4 -SRc --pattern '^(Date|added|deleted|modified): '; }
 
 # Remove branches that have been merged into master, excluding master and the currently checked out branch
 alias git-trim-branches="git branch --merged master | grep -v -e 'master' -e '\*' | xargs -n 1 git branch -d"

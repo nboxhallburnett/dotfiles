@@ -4,6 +4,7 @@
 PACKAGES=(
 	"acs@1.2.0"
 	"appcelerator"
+	"eslint"
 	"gulp"
 	"mocha"
 	"mongo-express"
