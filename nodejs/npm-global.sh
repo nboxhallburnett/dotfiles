@@ -2,17 +2,17 @@
 
 # Define the array of packages to install globally
 PACKAGES=(
-	"acs@1.2.0"
+	"acs"
 	"appcelerator"
 	"eslint"
-	"gulp"
+	"eslint-config-axway"
 	"mocha"
 	"mongo-express"
 	"npm-check-updates"
 )
 
 LIST=$(IFS=' ' ; echo "${PACKAGES[*]}");
-DESCRIPTION=$(IFS=',' ; echo "${PACKAGES[*]}");
+DESCRIPTION=$(IFS=', ' ; echo "${PACKAGES[*]}");
 
 echo "Globally installing: $DESCRIPTION"
 
