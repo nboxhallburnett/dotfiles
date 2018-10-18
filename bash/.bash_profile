@@ -39,6 +39,7 @@ NC='\e[0m' # No Colour
 #              EXPORTS              #
 #   -----------------------------   #
 
+export PATH=$PATH:$HOME/.vimpkg/bin
 export PATH=$PATH:$HOME/Library/Android-SDK-macOSX/tools
 export PATH=$PATH:$HOME/Library/Android-SDK-macOSX/platform-tools
 export PATH=$PATH:$HOME/bin

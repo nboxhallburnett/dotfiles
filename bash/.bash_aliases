@@ -30,11 +30,15 @@ alias :q="exit"
 alias rb="exec bash -l"
 alias restart-bash="exec bash -l"
 
+gg () {
+    find . -name "*$2" -exec grep -color=always "$1" {} +
+}
+
 # Need to unmount the bootcamp volume before virtualbox can access it
 setUpBootcampVM () {
     diskutil unmount /Volumes/BOOTCAMP
     sudo chmod 777 /dev/disk0s1
-    sudo chmod 777 /dev/disk0s4
+    sudo chmod 777 /dev/disk0s3
     open /Applications/VirtualBox.app
 }
 
@@ -55,10 +59,11 @@ alias ~="cd ~"
 #   -----------------------------   #
 
 alias g="git"
-alias gm="git checkout master && git pull"
+alias gm="git checkout master && git pull upstream master && git push origin master && npm i"
 alias gcm="git commit -m"
 alias gca="git commit --amend"
 alias gcam="git commit --amend -m"
+alias gcb="git checkout -b"
 alias grv="git remote -v"
 alias gfu="git fetch upstream"
 alias gmu="git merge upstream/master"
@@ -71,12 +76,14 @@ alias gb="git branch"
 alias ga="git add"
 alias gai="git add -i" # Interactive staging
 alias pr="git pr"
+alias pr-remote="git pr-remote"
 
 # Pass the diff through less, so we get nice scrolling
 gd() { git dsf $@ | less --tabs=4 -SRc --pattern '^(Date|added|deleted|modified): '; }
 
 # Remove branches that have been merged into master, excluding master and the currently checked out branch
-alias git-trim-branches="git branch --merged master | grep -v -e 'master' -e '\*' | xargs -n 1 git branch -d"
+alias git-trim-branches="git branch --merged master | grep -v -e 'master' -e '\*' | xargs -n 1 git branch -d; git fetch --prune"
+alias git-trim-remote-branches="git branch -r --merged | grep -v master | grep origin | sed 's/origin\///' | xargs -n 1 git push --delete origin"
 
 # alias yolo="git add . && git commit -m \"$(curl -s whatthecommit.com/index.txt)\" && git push"
 
