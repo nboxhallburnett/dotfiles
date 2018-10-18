@@ -81,6 +81,13 @@
     # fetch and checkout a PR from a provided remote
     pr-remote = "!f() { git fetch -fu $1 refs/pull/$2/head:$1/pr/$2 && git checkout $1/pr/$2; }; f"
 
+    # shortcut for assume-unchanged
+    assume = update-index --assume-unchanged
+    # shortcut to undo assume-unchanged
+    unassume = update-index --no-assume-unchanged
+    # list which files are assumed unchanged
+    assumed = "!git ls-files -v | grep ^h | cut -c 3-"
+
     # print out a list of all aliases
     aliases = "!git config --get-regexp 'alias.*' | colrm 1 6 | sed 's/[ ]/ = /' | sort"
 
@@ -93,3 +100,6 @@
 
 [core]
     whitespace = indent-with-non-tab,tabwidth=4
+
+[help]
+    autocorrect = 30
