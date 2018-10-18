@@ -50,3 +50,10 @@ if [ ! -f $HOME/.vim/colors/badwolf.vim ]; then
   mkdir -p $HOME/.vim/colors
   curl https://raw.githubusercontent.com/sjl/badwolf/master/colors/badwolf.vim > $HOME/.vim/colors/badwolf.vim
 fi
+
+# Node.js
+command -v node >/dev/null 2>&1 && {
+	echo >&2 "Setting up Node.js"
+	lnif $DOTFILESDIR/nodejs/.eslintrc $HOME/.eslintrc
+	$DOTFILESDIR/nodejs/npm-global.sh
+}
