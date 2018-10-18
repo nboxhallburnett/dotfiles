@@ -37,6 +37,9 @@ nnoremap E $
 " highlight last inserted text
 nnoremap gV `[v`]
 
+" use ctrl-e to toggle nerdtree
+map <C-e> :NERDTreeToggle<CR>
+
 augroup configgroup
     autocmd!
     autocmd VimEnter * highlight clear SignColumn
@@ -61,6 +64,10 @@ augroup configgroup
     autocmd BufEnter *.sh setlocal tabstop=2
     autocmd BufEnter *.sh setlocal shiftwidth=2
     autocmd BufEnter *.sh setlocal softtabstop=2
+
+    autocmd StdinReadPre * let s:std_in=1
+	autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+
 augroup END
 
 " toggle between number and relativenumber
@@ -84,3 +91,5 @@ function! <SID>StripTrailingWhitespaces()
     let @/=_s
     call cursor(l, c)
 endfunction
+execute pathogen#infect()
+call pathogen#helptags()
