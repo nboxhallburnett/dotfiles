@@ -14,12 +14,14 @@ const maxLen = process.argv[2] && Math.floor(process.argv[2] / 4 * 2) || 75,
 	strLen = maxLen - rightLen,
 	suffix = '...';
 
-let output;
+let output = '';
 
 formatOutput(
-	busTime,
 	currentlyPlaying
+	// Add other functions else here to include it in the output
 );
+
+output = output || '¯\\_(ツ)_/¯';
 
 process.stdout.write(
 	maxLen < 40
@@ -49,26 +51,6 @@ function currentlyPlaying() {
 	return '';
 }
 
-// Display the next due bus, if it's an appropriate time
-function busTime() {
-	const date = new Date();
-	// Why would anyone use Sunday as the first day of the week...
-	const isWeekday = ![0, 6].includes(date.getDay());
-	// Only display starting at 4pm
-	const startTime = 16;
-	// Generate an array including the hours we want to display the times during
-	const isEOD = Array(5).fill().map((e, i) => startTime + i).includes(date.getHours());
-	if (isWeekday && isEOD) {
-		const busData = require(path.resolve(homedir, '.bustime.json'));
-		const times = [];
-		busData.results.forEach(bus => +bus.duetime > 7 && times.push(bus.duetime));
-		return times.length
-			? `Next #11 in ${times.join(',')} mins`
-			: '';
-	};
-	return '';
-}
-
 function formatOutput(...args) {
 	args.forEach(func => output = format(func()));
 
@@ -81,5 +63,5 @@ function formatOutput(...args) {
 
 function _msToMin(ts) {
 	const m = ts / 1000;
-	return `${Math.floor(m/60)}:${String('00' + Math.floor(m % 60)).slice(-2)}`
+	return `${Math.floor(m / 60)}:${String('00' + Math.floor(m % 60)).slice(-2)}`;
 }
