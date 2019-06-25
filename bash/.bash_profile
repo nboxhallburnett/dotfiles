@@ -58,6 +58,9 @@ export LSCOLORS=ExFxBxDxCxegedabagacad
 export LS_COLORS=ExFxBxDxCxegedabagacad
 export BLOCKSIZE=1k
 
+# Erase duplicate entries from history
+export HISTCONTROL=erasedups
+
 #   ------------------------------   #
 #              SETTINGS              #
 #   ------------------------------   #
