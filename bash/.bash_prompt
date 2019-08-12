@@ -16,7 +16,7 @@ function colour {
 
 # Display prompt that matches tmux style if currently in tmux
 if [ -n "$TMUX" ]; then
-	local ISGIT=`git rev-parse --is-inside-work-tree 2>/dev/null`
+	ISGIT=`git rev-parse --is-inside-work-tree 2>/dev/null`
 	PS1="\n$(colour 233 253 1) \h $(colour 253 247 0)$(colour 233 247 1) $(eval "echo \${MYPS}") $NC" # White  Light grey  Dark grey  clear
 
 	# Only add git branch if we're in a git dir. Yes I know __git_ps1 does this check, but we also need to know this to set the correct background colour for the  before it
