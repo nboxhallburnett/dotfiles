@@ -106,7 +106,12 @@ alias ode="node"
 alias nde="node"
 alias nod="node"
 
+alias nom="npm"
+
 alias gti="git"
+alias gut="git"
+
+alias mogno="mongo"
 
 #   -----------------------------   #
 #       MAKE TERMINAL BETTER        #
