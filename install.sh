@@ -55,5 +55,6 @@ fi
 command -v node >/dev/null 2>&1 && {
 	echo >&2 "Setting up Node.js"
 	lnif $DOTFILESDIR/nodejs/.eslintrc $HOME/.eslintrc
+	lnif $DOTFILESDIR/nodejs/.default-npm-packages $HOME/.default-npm-packages
 	$DOTFILESDIR/nodejs/npm-global.sh
 }

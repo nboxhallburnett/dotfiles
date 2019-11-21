@@ -1,15 +1,10 @@
 #!/usr/bin/env bash
 
+REL_PATH=$(cd "$(dirname "${BASH_SOURCE[0]}")"; pwd -P)
+cd "$REL_PATH"
+
 # Define the array of packages to install globally
-PACKAGES=(
-	"acs"
-	"appcelerator"
-	"eslint"
-	"eslint-config-axway"
-	"mocha"
-	"mongo-express"
-	"npm-check-updates"
-)
+PACKAGES=($(cat ./.default-npm-packages))
 
 LIST=$(IFS=' ' ; echo "${PACKAGES[*]}");
 DESCRIPTION=$(IFS=', ' ; echo "${PACKAGES[*]}");
