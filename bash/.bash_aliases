@@ -129,6 +129,7 @@ alias h25="history 25"                      # Show the 25 previous commands
 alias h="history"                           # show x number of previous commands
 alias subl="sublime"                        # Open a file or directory in Sublime Text
 alias json="python -m json.tool"            # | json a command to pretty print the output
+alias count="wc -l"                         # | count a command to return the line count of the output
 cd() { builtin cd "$@" ; ll ; }             # Always list directory contents upon 'cd'
 alias ..='cd ../'                           # Go back 1 directory level
 alias ...='cd ../../'                       # Go back 2 directory levels
