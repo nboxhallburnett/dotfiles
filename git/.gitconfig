@@ -55,7 +55,7 @@
     # detailed history
     ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --stat
     # history tree
-    lds = log --pretty=format:"%C(yellow)%h\\ %C(green)%ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short --graph
+    lds = log --pretty=format:"%C(yellow)%h\\ %C(green)%ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=rfc --graph
 
     # changes in the last commit (List Last Commit)
     llc = show --stat --oneline HEAD
@@ -103,3 +103,6 @@
 
 [help]
     autocorrect = 30
+
+[interactive]
+	diffFilter = diff-so-fancy --patch
