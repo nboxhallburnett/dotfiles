@@ -4,8 +4,7 @@
  * Script used in tmux to display custom info
  */
 const { promisify } = require('util');
-
-const spotify = require('spotify-node-applescript');
+const { isRunning, getTrack, getState } = require('spotify-node-applescript');
 
 // Define output length
 const maxLen = process.argv[2] && Math.floor(process.argv[2] / 4 * 2) || 75;
@@ -17,8 +16,7 @@ formatOutput(
 	currentlyPlaying()
 	// Add other functions else here to include it in the output
 ).then(output => {
-	output = output || '¯\\_(ツ)_/¯';
-
+	output = output || '';
 	process.stdout.write(
 		maxLen < 40
 			? ''
@@ -31,24 +29,31 @@ formatOutput(
 
 // Format the any music that is currently, or was recently, playing
 async function currentlyPlaying() {
-	let data = {
-		track: await promisify(spotify.getTrack)(),
-		state: await promisify(spotify.getState)()
-	};
-	let output = '';
-
-	if (data && data.track && data.track.duration) {
-		const total = _msToMin(data.track.duration);
-		const current = _msToMin(data.state.position * 1000);
-		const str = `${data.state.state === 'playing' ? '▶' : 'Ⅱ'} ${data.track.artist} - ${data.track.name}`;
-		const time = `${current}/${total}`;
-
-		return (str.length + time.length + 6 + output.length > strLen
-			? str.substr(0, strLen - (time.length + output.length + 7)) + '...'
-			: str + ' -')
-			+ ' ' + time;
+	// Skip if spotify isn't open
+	if (!await promisify(isRunning)()) {
+		return '';
 	}
-	return '';
+
+	// Get current track and state info
+	const [ track, state ] = await Promise.all([
+		promisify(getTrack)(),
+		promisify(getState)()
+	]);
+
+	// Fall out if no duration info was found
+	if (!track?.duration) {
+		return '';
+	}
+
+	const total = _msToMin(track.duration);
+	const current = _msToMin(state.position * 1000);
+	const str = `${state.state === 'playing' ? '▶' : 'Ⅱ'} ${track.artist} - ${track.name}`;
+	const time = `${current}/${total}`;
+
+	return (str.length + time.length + 6 > strLen
+		? str.substr(0, strLen - (time.length + 7)) + '...'
+		: str + ' -')
+		+ ' ' + time;
 }
 
 async function formatOutput(...data) {
