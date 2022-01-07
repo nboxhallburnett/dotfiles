@@ -106,3 +106,7 @@
 
 [interactive]
 	diffFilter = diff-so-fancy --patch
+
+[fetch]
+    # Automatically prune branches deleted in remote repos on fetch
+	prune = true
