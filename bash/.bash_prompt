@@ -17,22 +17,42 @@ function colour {
 # Display prompt that matches tmux style if currently in tmux
 if [ -n "$TMUX" ]; then
 	ISGIT=`git rev-parse --is-inside-work-tree 2>/dev/null`
-	PS1="\n$(colour 233 253 1) \h $(colour 253 247 0)$(colour 233 247 1) $(eval "echo \${MYPS}") $NC" # White  Light grey  Dark grey  clear
+	PS1="$(colour 233 253 1) \h $(colour 253 247 0)$(colour 233 247 1) $(eval "echo \${MYPS}") $NC" # White  Light grey  Dark grey  clear
 
 	# Only add git branch if we're in a git dir. Yes I know __git_ps1 does this check, but we also need to know this to set the correct background colour for the  before it
 	if [ $ISGIT ]; then
 		PS1=$PS1"\$(__git_ps1 '$(colour 247 243 0)$(colour 233 243 1)  %s $(colour 243 0 0)$(colour 0 243 1)$NC' )\n> "
 	else
-		PS1=$PS1"$(colour 247 0 0)$NC\n> "
+		PS1=$PS1"$(colour 247 0 0)$NC $ "
 	fi
 else
-	# PS1="$CYAN\u$NC@$GREEN\h$NC: $YELLOW$(eval "echo \${MYPS}")$NC\$(__git_ps1)\n> "
 	PS1="$GREEN\h$NC: $YELLOW$(eval "echo \${MYPS}")$NC\$(__git_ps1)\n> "
 fi
+PS0="$(tput setaf 243)@ \t:$NC\n"
 PS1='$(printf "%$((COLUMNS-1))s\r")'$PS1
 PS2='» '
 
+precmd() {
+	local st=$(HISTTIMEFORMAT='%s ' history 1 | awk '{print $2}');
+	if [[ -z "$STARTTIME" || (-n "$STARTTIME" && "$STARTTIME" -ne "$st") ]]; then
+		ENDTIME=$EPOCHSECONDS
+		STARTTIME=$st
+	else
+		ENDTIME=0
+	fi
+}
+
 function prompt_command {
+	local EXIT="$?"
+	precmd;
+	if ((ENDTIME - STARTTIME >= 0)); then
+		# Make the error code red if non-0
+		if [ $EXIT != 0 ]; then
+			local EXIT="$RED$EXIT$(tput setaf 243)";
+		fi
+		echo -e "\n$(tput setaf 243)Completed `date +%T` ($((ENDTIME - STARTTIME))s) | exit code $EXIT$NC";
+	fi
+
 	# create a $fill of all screen width minus the time string and a space:
 	let fillsize=${COLUMNS}-25
 	fill=""
