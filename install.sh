@@ -24,6 +24,7 @@ echo "Setting up Git..."
 lnif $DOTFILESDIR/git/.gitconfig $HOME/.gitconfig
 lnif $DOTFILESDIR/git/.gitconfig_private $HOME/.gitconfig_private
 # Check if git completion is set up
+# TODO: update to support non-intel macs
 if [ ! -f /usr/local/etc/bash_completion.d/git-completion.bash ]; then
   mkdir -p /usr/local/etc/bash_completion.d
   curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash > /usr/local/etc/bash_completion.d/git-completion.bash

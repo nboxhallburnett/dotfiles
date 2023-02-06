@@ -39,19 +39,14 @@ NC='\e[0m' # No Colour
 #              EXPORTS              #
 #   -----------------------------   #
 
+export PATH=/opt/homebrew/bin:$PATH
+
 export PATH=$PATH:$HOME/.vimpkg/bin
 export PATH=$PATH:$HOME/Library/Android-SDK-macOSX/tools
 export PATH=$PATH:$HOME/Library/Android-SDK-macOSX/platform-tools
 export PATH=$PATH:$HOME/bin
 
 export FIGNORE=.csproj:.meta
-
-# Add GO to PATH
-export GOPATH="$HOME/work"
-export PATH="$PATH:$GOPATH/bin"
-
- # Add RVM to PATH for scripting
-export PATH="$PATH:$HOME/.rvm/bin"
 
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
@@ -70,14 +65,16 @@ shopt -s promptvars
 shopt -s cdspell
 shopt -s autocd
 shopt -s dirspell
+shopt -s expand_aliases
 
 #   -----------------------------   #
 #              IMPORTS              #
 #   -----------------------------   #
 
-source /usr/local/etc/bash_completion.d/git-completion.bash
-source /usr/local/etc/bash_completion.d/git-prompt.sh
-source /usr/local/etc/bash_completion.d/npm
+# Source all items from brews bash_completion.d dir
+for s in /opt/homebrew/etc/bash_completion.d/*;
+	do source $s;
+done
 
 # bashrc
 if [ -f ~/.bash_prompt ]; then
@@ -102,7 +99,3 @@ fi
 # asdf setup
 [ -f $HOME/.asdf/asdf.sh ] && source $HOME/.asdf/asdf.sh
 [ -f $HOME/.asdf/completions/asdf.bash ] && source $HOME/.asdf/completions/asdf.bash
-# jabba setup
-[ -f $HOME/.jabba/jabba.sh ] && source $HOME/.jabba/jabba.sh
-# travis setup
-[ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh

@@ -109,4 +109,4 @@
 
 [fetch]
     # Automatically prune branches deleted in remote repos on fetch
-	prune = true
+    prune = true

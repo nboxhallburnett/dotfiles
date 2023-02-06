@@ -13,9 +13,6 @@ alias asdf="~/.asdf/bin/asdf"
 # Shortcut for running curl with JSON headers
 alias jsoncurl="curl -H \"Accept: application/json\" -H \"Content-Type: application/json\""
 
-# Add an empty space to the mac dock
-alias addDockSpace="defaults write com.apple.dock persistent-apps -array-add '{\"tile-type\"=\"spacer-tile\";}'; killall Dock"
-
 # Print out public ssh key
 alias getPublicKey="cat ~/.ssh/id_rsa.pub"
 
@@ -34,14 +31,6 @@ gg () {
     find . -name "*$2" -exec grep -color=always "$1" {} +
 }
 
-# Need to unmount the bootcamp volume before virtualbox can access it
-setUpBootcampVM () {
-    diskutil unmount /Volumes/BOOTCAMP
-    sudo chmod 777 /dev/disk0s1
-    sudo chmod 777 /dev/disk0s3
-    open /Applications/VirtualBox.app
-}
-
 # Kill a process from its name
 killX () {
     sudo kill -9 `ps -A | grep -m1 $1 | awk '{print $1}'`
@@ -51,7 +40,6 @@ killX () {
 #      GO TO COMMON DIRECTORIES     #
 #   -----------------------------   #
 
-alias d="cd ~/Desktop"
 alias ~="cd ~"
 
 #   -----------------------------   #
@@ -87,6 +75,9 @@ gdc() { git dsf --cached $@ | less --tabs=4 -SRc --pattern '^(Date|added|deleted
 alias git-trim-branches="git branch --merged master | grep -v -e 'master' -e '\*' | xargs -n 1 git branch -d; git fetch --prune"
 alias git-trim-remote-branches="git branch -r --merged | grep -v master | grep origin | sed 's/origin\///' | xargs -n 1 git push --delete origin"
 
+# Fix for "fatal: loose object {obj} (stored in ...) is corrupt" error
+alias git-fix-corrupt-loose-object="find .git/objects/ -empty -delete"
+
 # alias yolo="git add . && git commit -m \"$(curl -s whatthecommit.com/index.txt)\" && git push"
 
 #   -----------------------------   #
@@ -118,16 +109,12 @@ alias mogno="mongo"
 #   -----------------------------   #
 
 alias ls='ls -GFh'                          # Preferred 'ls' implementation
-alias ils='~/Scripts/imgls'                 # iTerm Image viewing ls
 alias cp='cp -iv'                           # Preferred 'cp' implementation
 alias mv='mv -iv'                           # Preferred 'mv' implementation
 alias mkdir='mkdir -pv'                     # Preferred 'mkdir' implementation
 alias less='less -FSRc --tabs=4'            # Preferred 'less' implementation
 alias rm='/bin/rm -i'                       # Preferred 'rm' implementation
 alias ll="ls -FGlAhp"                       # Shortcut for detailed 'ls' command
-alias h25="history 25"                      # Show the 25 previous commands
-alias h="history"                           # show x number of previous commands
-alias subl="sublime"                        # Open a file or directory in Sublime Text
 alias json="python -m json.tool"            # | json a command to pretty print the output
 alias count="wc -l"                         # | count a command to return the line count of the output
 cd() { builtin cd "$@" ; ll ; }             # Always list directory contents upon 'cd'
@@ -187,16 +174,6 @@ extract () {
      fi
 }
 
-
-#   ---------------------------   #
-#            SEARCHING            #
-#   ---------------------------   #
-
-alias qfind="find . -name "                 # qfind:    Quickly search for file
-ff () { /usr/bin/find . -name "$@" ; }      # ff:       Find file under the current directory
-ffs () { /usr/bin/find . -name "$@"'*' ; }  # ffs:      Find file whose name starts with a given string
-ffe () { /usr/bin/find . -name '*'"$@" ; }  # ffe:      Find file whose name ends with a given string
-
 #   ---------------------------   #
 #       PROCESS MANAGEMENT        #
 #   ---------------------------   #
@@ -209,30 +186,6 @@ ffe () { /usr/bin/find . -name '*'"$@" ; }  # ffe:      Find file whose name end
 #   -----------------------------------------------------
 findPid () { lsof -t -c "$@" ; }
 freePort () { lsof -ti :"$@" | xargs kill -9 ; }
-
-#   memHogsTop, memHogsPs:  Find memory hogs
-#   -----------------------------------------------------
-alias memHogsTop='top -l 1 -o rsize | head -20'
-alias memHogsPs='ps wwaxm -o pid,stat,vsize,rss,time,command | head -10'
-
-#   cpuHogs:  Find CPU hogs
-#   -----------------------------------------------------
-alias cpuHogs='ps wwaxr -o pid,stat,%cpu,time,command | head -10'
-
-#   topForever:  Continual 'top' listing (every 10 seconds)
-#   -----------------------------------------------------
-alias topForever='top -l 9999999 -s 10 -o cpu'
-
-#   ttop:  Recommended 'top' invocation to minimize resources
-#   ------------------------------------------------------------
-#       Taken from this macosxhints article
-#       http://www.macosxhints.com/article.php?story=20060816123853639
-#   ------------------------------------------------------------
-alias ttop="top -R -F -s 10 -o rsize"
-
-#   my_ps: List processes owned by my user:
-#   ------------------------------------------------------------
-my_ps() { ps $@ -u $USER -o pid,%cpu,%mem,start,time,bsdtime,command ; }
 
 
 #   ---------------------------   #
@@ -254,7 +207,7 @@ alias showBlocked='sudo ipfw list'                                          # sh
 #   -------------------------------------------------------------------
 ii() {
     echo -e "\nYou are logged on ${RED}$HOST"
-    echo -e "\nAdditionnal information:$NC " ; uname -a
+    echo -e "\nAdditional information:$NC " ; uname -a
     echo -e "\n${RED}Users logged on:$NC " ; w -h
     echo -e "\n${RED}Current date:$NC " ; date
     echo -e "\n${RED}Machine stats:$NC " ; uptime

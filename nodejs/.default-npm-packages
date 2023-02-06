@@ -3,3 +3,4 @@ eslint-config-axway
 mocha
 npm-check-updates
 supervisor
+redis-cli
