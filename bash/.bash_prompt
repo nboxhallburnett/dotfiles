@@ -23,7 +23,7 @@ if [ -n "$TMUX" ]; then
 	if [ $ISGIT ]; then
 		PS1=$PS1"\$(__git_ps1 '$(colour 247 243 0)$(colour 233 243 1)  %s $(colour 243 0 0)$(colour 0 243 1)$NC' )\n> "
 	else
-		PS1=$PS1"$(colour 247 0 0)$NC $ "
+		PS1=$PS1"$(colour 247 0 0)$NC\n> "
 	fi
 else
 	PS1="$GREEN\h$NC: $YELLOW$(eval "echo \${MYPS}")$NC\$(__git_ps1)\n> "

@@ -47,7 +47,7 @@ alias ~="cd ~"
 #   -----------------------------   #
 
 alias g="git"
-alias gm="git checkout package-lock.json ; git checkout master && git pull upstream master && git push origin master && npm i"
+alias gm="git checkout package-lock.json ; git checkout master && git pull --tags --prune upstream master && git push origin master --no-verify && npm i"
 alias gcm="git commit -m"
 alias gca="git commit --amend"
 alias gcam="git commit --amend -m"
@@ -67,9 +67,9 @@ alias pr="git pr"
 alias pr-remote="git pr-remote"
 
 # Pass the diff through less, so we get nice scrolling
-gd() { git dsf $@ | less --tabs=4 -SRc --pattern '^(Date|added|deleted|modified): '; }
+gd() { git dsf $@ | less --tabs=4 -SRc --pattern '^(Date|added|deleted|modified|renamed): '; }
 # Same as gd, but for the currently staged changes
-gdc() { git dsf --cached $@ | less --tabs=4 -SRc --pattern '^(Date|added|deleted|modified): '; }
+gdc() { git dsf --cached $@ | less --tabs=4 -SRc --pattern '^(Date|added|deleted|modified|renamed): '; }
 
 # Remove branches that have been merged into master, excluding master and the currently checked out branch
 alias git-trim-branches="git branch --merged master | grep -v -e 'master' -e '\*' | xargs -n 1 git branch -d; git fetch --prune"
