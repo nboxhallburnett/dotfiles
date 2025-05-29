@@ -4,3 +4,4 @@ mocha
 npm-check-updates
 supervisor
 redis-cli
+json

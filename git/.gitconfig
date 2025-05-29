@@ -81,6 +81,9 @@
     # fetch and checkout a PR from a provided remote
     pr-remote = "!f() { git fetch -fu $1 refs/pull/$2/head:$1/pr/$2 && git checkout $1/pr/$2; }; f"
 
+    # overwrite rebase with --committer-date-is-author-date
+    rebase = "rebase --committer-date-is-author-date"
+
     # shortcut for assume-unchanged
     assume = update-index --assume-unchanged
     # shortcut to undo assume-unchanged

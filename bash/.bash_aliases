@@ -47,7 +47,7 @@ alias ~="cd ~"
 #   -----------------------------   #
 
 alias g="git"
-alias gm="git checkout package-lock.json ; git checkout master && git pull --tags --prune upstream master && git push origin master --no-verify && npm i"
+alias gm="git checkout package-lock.json ; git checkout master && git pull --tags --prune upstream master && git push origin master --no-verify && git fetch origin && npm i"
 alias gcm="git commit -m"
 alias gca="git commit --amend"
 alias gcam="git commit --amend -m"
@@ -74,6 +74,7 @@ gdc() { git dsf --cached $@ | less --tabs=4 -SRc --pattern '^(Date|added|deleted
 # Remove branches that have been merged into master, excluding master and the currently checked out branch
 alias git-trim-branches="git branch --merged master | grep -v -e 'master' -e '\*' | xargs -n 1 git branch -d; git fetch --prune"
 alias git-trim-remote-branches="git branch -r --merged | grep -v master | grep origin | sed 's/origin\///' | xargs -n 1 git push --delete origin"
+alias gtb="git-trim-branches"
 
 # Fix for "fatal: loose object {obj} (stored in ...) is corrupt" error
 alias git-fix-corrupt-loose-object="find .git/objects/ -empty -delete"
@@ -115,7 +116,6 @@ alias mkdir='mkdir -pv'                     # Preferred 'mkdir' implementation
 alias less='less -FSRc --tabs=4'            # Preferred 'less' implementation
 alias rm='/bin/rm -i'                       # Preferred 'rm' implementation
 alias ll="ls -FGlAhp"                       # Shortcut for detailed 'ls' command
-alias json="python -m json.tool"            # | json a command to pretty print the output
 alias count="wc -l"                         # | count a command to return the line count of the output
 cd() { builtin cd "$@" ; ll ; }             # Always list directory contents upon 'cd'
 alias ..='cd ../'                           # Go back 1 directory level
