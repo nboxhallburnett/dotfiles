@@ -1,0 +1,6 @@
+brew "bash"
+brew "diff-so-fancy"
+brew "git"
+brew "htop"
+brew "node@22"
+cask "font-source-code-pro"

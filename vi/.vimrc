@@ -91,5 +91,3 @@ function! <SID>StripTrailingWhitespaces()
     let @/=_s
     call cursor(l, c)
 endfunction
-execute pathogen#infect()
-call pathogen#helptags()
